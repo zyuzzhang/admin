@@ -1,0 +1,72 @@
+{
+  "name" : "yiisoft/yii2-app-basic",
+  "description" : "Yii 2 Basic Project Template",
+  "require" : {
+    "php" : ">=5.4.0",
+    "yiisoft/yii2" : ">=2.0.4",
+    "yiisoft/yii2-bootstrap" : "*",
+    "yiisoft/yii2-swiftmailer" : "*",
+    "mdmsoft/yii2-gii" : "1.1.0",
+    "2amigos/yii2-date-picker-widget" : "*",
+    "2amigos/yii2-date-time-picker-widget" : "*",
+    "johnitvn/yii2-ajaxcrud" : "*",
+    "rkit/yii2-ajaxform-plugin" : "*",
+    "kartik-v/yii2-datecontrol": "*",
+    "kartik-v/yii2-widgets" : "*",
+    "kartik-v/yii2-export": "@dev",
+    "callmez/yii2-wechat-sdk": "^0.3.0",
+    "daixianceng/yii2-echarts": "*",
+    "deepziyu/yii-fast-api": "~v0.2",
+    "mongosoft/yii2-soap-server": "*",
+    "mongosoft/yii2-soap-client": "*",
+    "bedezign/yii2-audit": "^1.0",
+    "leandrogehlen/yii2-treegrid": "*",
+    "kartik-v/yii2-tabs-x": "*",
+    "yiisoft/yii2-elasticsearch": "^2.0",
+    "yiisoft/yii2-redis": "^2.0"
+  },
+  "require-dev" : {
+    "yiisoft/yii2-codeception" : "*",
+    "yiisoft/yii2-debug" : "*",
+    "yiisoft/yii2-gii" : "*",
+    "yiisoft/yii2-faker" : "*"
+  },
+  "license" : "BSD-3-Clause",
+  "keywords" : [ "yii2", "framework", "basic", "project template" ],
+  "extra" : {
+    "yii\\composer\\Installer::postCreateProject" : {
+      "setPermission" : [ {
+        "runtime" : "0777",
+        "web/assets" : "0777",
+        "yii" : "0755"
+      } ],
+      "generateCookieValidationKey" : [ "config/web.php" ]
+    },
+    "asset-installer-paths" : {
+      "npm-asset-library" : "vendor/npm",
+      "bower-asset-library" : "vendor/bower"
+    }
+  },
+  "minimum-stability" : "stable",
+  "type" : "project",
+  "scripts" : {
+    "post-create-project-cmd" : [ "yii\\composer\\Installer::postCreateProject" ]
+  },
+  "support" : {
+    "issues" : "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum" : "http://www.yiiframework.com/forum/",
+    "wiki" : "http://www.yiiframework.com/wiki/",
+    "irc" : "irc://irc.freenode.net/yii",
+    "source" : "https://github.com/yiisoft/yii2"
+  },
+  "config" : {
+    "process-timeout" : 1800
+  },
+  "homepage" : "http://www.yiiframework.com/",
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}
