@@ -34,7 +34,7 @@ class MenuController extends BaseController
                 ],
             ],
         ];
-        
+
        return ArrayHelper::merge($current, $parent);
     }
 
@@ -89,7 +89,7 @@ class MenuController extends BaseController
                 'model' => $model,
                 'titleList' => $titleList
             ]);
-        
+
     }
 
     /**
@@ -112,7 +112,7 @@ class MenuController extends BaseController
                 'model' => $model,
                 'titleList' => $titleList
             ]);
-        
+
     }
 
     /**
@@ -125,12 +125,12 @@ class MenuController extends BaseController
     {
         $request = Yii::$app->request;
         if($request->isAjax){
-        
+
             /*
              *   Process for ajax request
              */
             $this->findModel($id)->delete();
-            
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
@@ -140,9 +140,9 @@ class MenuController extends BaseController
             return $this->redirect(['index']);
         }
     }
-    
+
     public function actionSearch(){
-        
+
         $description = Yii::$app->request->get('description');
         $menu_url = Menu::searchMenu($description);
         if(!$menu_url){
@@ -156,20 +156,17 @@ class MenuController extends BaseController
         /* 获取系统所有的用户id以及对应机构id */
         $query = new Query();
         $query->from(['a' => User::tableName()]);
-        $query->select(['a.id','b.spot']);
-        $query->leftJoin(['b' => Spot::tableName()],'{{a}}.spot_id = {{b}}.id');
+        $query->select(['a.id']);
         $userList = $query->all();
-        
+
         if(!empty($userList)){
             foreach ($userList as $v){
                 //获取该机构下用户所属所有诊所列表的key值
-                $spotListCache = Yii::getAlias('@spotList') . $v['spot'] . '_' . $v['id'];
-                $commonRoleMenuCache = Yii::getAlias('@commonRoleMenu') . $v['id'] . '_' . $v['spot']; //普通用户菜单url缓存key
-                $commonAllPermCache = Yii::getAlias('@commonAllPerm') . $v['id'] . '_' . $v['spot']; //普通用户全部权限列表缓存key
-                Yii::$app->cache->delete($spotListCache);//消除用户所属诊所列表的缓存
+                $commonRoleMenuCache = Yii::getAlias('@commonRoleMenu') . $v['id']; //普通用户菜单url缓存key
+                $commonAllPermCache = Yii::getAlias('@commonAllPerm') . $v['id']; //普通用户全部权限列表缓存key
                 Yii::$app->cache->delete($commonRoleMenuCache);//消除普通用户菜单url缓存
                 Yii::$app->cache->delete($commonAllPermCache);//消除普通用户全部权限列表缓存
-                
+
             }
         }
         Yii::$app->db->schema->refresh();
@@ -192,9 +189,9 @@ class MenuController extends BaseController
             throw new NotFoundHttpException('你请求的页面不存在.');
         }
     }
-    
+
     private function removePerm() {
-    	
+
     }
-    
+
   }

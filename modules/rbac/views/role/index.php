@@ -24,7 +24,7 @@ $parentSpotCode = Yii::$app->cache->get(Yii::getAlias('@parentSpotCode').$_COOKI
 
 <div class="item-index col-xs-12">
     <?php Pjax::begin(['id' => 'crud-datatable-pjax'])?>
-    
+
    <div class = "box">
     <div class = 'row search-margin'>
       <div class = 'col-sm-2 col-md-2'>
@@ -81,10 +81,9 @@ $parentSpotCode = Yii::$app->cache->get(Yii::getAlias('@parentSpotCode').$_COOKI
                 'template' => '{update}{delete}',
                 'headerOptions' => ['class' => 'col-sm-2 col-md-2'],
                 'buttons' => [
-                    
+
                     'delete' => function($url,$model,$key)use($parentSpotCode){
                         $parentRolePrefix = $parentSpotCode.'_roles_';
-                        $defaultRoleList = include(Yii::getAlias('@initDefaultRoleUrl'));
                         $systemRole = $parentRolePrefix.'system';
                        if ((!isset($this->params['permList']['role'])||!in_array($this->params['requestModuleController'].'/delete', $this->params['permList'])) && ($model->name == $systemRole)){
                            return false;
@@ -101,7 +100,7 @@ $parentSpotCode = Yii::$app->cache->get(Yii::getAlias('@parentSpotCode').$_COOKI
                             'data-delete' => false,
                             'data-pjax' => '1',
                         ]);
-                        
+
                         return Html::a('删除', $url, $options);
                     }
                 ]

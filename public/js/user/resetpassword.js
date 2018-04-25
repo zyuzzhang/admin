@@ -14,25 +14,25 @@ define(function(require){
 
 				$('#batch-form').yiiAjaxForm({
 					beforeSend: function() {
-						$.ajax({
-							url:codeUrl,
-							data: {
-								'content' :$("#batch-form").serializeArray() ,
-								'token':token,
-							},
-							type: "post",
-							success: function (data, textStatus, jqXHR) {
-								if(data.errorCode != 0){
-									$('.code-message').empty();
-									content='<span style="color:#ff4b00">'+data.msg+'</span>';
-									$('.code-message').append(content);
-								}
-							},
-							error: function () {
-								showInfo('系统问题，请稍后再试', '180px',2);
-							},
-							dataType: 'json'
-						})
+//						$.ajax({
+//							url:codeUrl,
+//							data: {
+//								'content' :$("#batch-form").serializeArray() ,
+//								'token':token,
+//							},
+//							type: "post",
+//							success: function (data, textStatus, jqXHR) {
+//								if(data.errorCode != 0){
+//									$('.code-message').empty();
+//									content='<span style="color:#ff4b00">'+data.msg+'</span>';
+//									$('.code-message').append(content);
+//								}
+//							},
+//							error: function () {
+//								showInfo('系统问题，请稍后再试', '180px',2);
+//							},
+//							dataType: 'json'
+//						})
 					},
 					complete: function() {
 					},

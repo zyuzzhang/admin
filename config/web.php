@@ -33,7 +33,20 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.exmail.qq.com',
+                'username' => 'zhenyuzhang@mengbaofun.com',
+                'password' => 'Aasd360766414',
+                'port' => '25',
+                'encryption' => 'tls',
+            ],
+            'messageConfig'=>[
+                'charset'=>'UTF-8',
+                'from'=>['zhenyuzhang@mengbaofun.com'=>'萌宝互动']
+            ],
+
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -49,6 +62,7 @@ $config = [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => false, //不启用严格解析
             'showScriptName' => false, //隐藏index.php
+            'suffix' => '.html',
             'rules' => [
                 '' => '/user/index/login',
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',

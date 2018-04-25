@@ -1,15 +1,15 @@
-<?php  
-use yii\helpers\Html;  
- 
+<?php
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $model app\modules\user\models\User */
-  
+
 $code_url = Yii::$app->urlManager->createAbsoluteUrl([Yii::getAlias('@userIndexResetPassword'), 'token' => $data['password_reset_token'],'dataType' => '1']);
 $login_url = Yii::$app->urlManager->createAbsoluteUrl([Yii::getAlias('@userIndexLogin')]);
 ?>
 <p>亲爱的<?= Html::encode($data['username'])?>，您好！</p>
 
-<p style="text-indent: 2em;">欢迎加入<?= Html::encode($parentSpotName)?>（机构代码为<?= Html::encode($parentSpotCode) ?>）。智慧e院系统使用操作步骤如下： </p>
+<p style="text-indent: 2em;">欢迎加入<?= Html::encode($parentName)?>。运营管理系统使用操作步骤如下： </p>
 
 <br>
 
@@ -21,7 +21,7 @@ $login_url = Yii::$app->urlManager->createAbsoluteUrl([Yii::getAlias('@userIndex
 
 
 
-<p>2、登录系统，请点击下面的链接输入您的用户名（邮箱或手机号）、密码以及机构代码便可开始使用，推荐您使用谷歌浏览器。
+<p>2、登录系统，请点击下面的链接输入您的用户名（邮箱或手机号）、密码便可开始使用，推荐您使用谷歌浏览器。
 
 <p style="text-indent: 2em;"><?= Html::a($login_url,$login_url) ?></p>
 
@@ -32,7 +32,7 @@ $login_url = Yii::$app->urlManager->createAbsoluteUrl([Yii::getAlias('@userIndex
 
 <p style="text-indent: 2em;">本邮件是系统自动发送，请勿直接回复！</p>
 
-<p style="text-indent: 2em;">From：深圳市医信科技有限公司</p>
+<p style="text-indent: 2em;">From：萌宝互动网络有限公司</p>
 
 
 

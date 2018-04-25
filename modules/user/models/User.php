@@ -78,7 +78,7 @@ class User extends BaseActiveRecord implements IdentityInterface
             [['username', 'email', 'introduce'], 'trim'],
             [['iphone', 'email'], 'validateIphoneEmail', 'on' => 'register'],
             ['oldPassword', 'validateOldPassword'],
-            ['code', 'validatecode', 'on' => 'resetPassword'],
+//             ['code', 'validatecode', 'on' => 'resetPassword'],
             ['password', 'match', 'pattern' => '/(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s]{8,20}$/', 'message' => '密码不符合要求'],
         ];
     }
@@ -88,7 +88,7 @@ class User extends BaseActiveRecord implements IdentityInterface
         $parent = parent::scenarios();
         $parent['login'] = ['username', 'password'];
         $parent['register'] = ['username', 'email', 'sex', 'iphone', 'occupation', 'introduce', 'head_img', 'role', 'status'];
-        $parent['resetPassword'] = ['password_reset_token', 'password', 'reType_password', 'code']; //重置密码场景
+        $parent['resetPassword'] = ['password_reset_token', 'password', 'reType_password', /*'code'*/ ]; //重置密码场景
         $parent['resetSave'] = ['expire_time', 'id'];
         $parent['editPassword'] = ['password', 'oldPassword', 'reType_password']; //修改密码
 //         $parent['registerSystem'] = ['username', 'email', 'iphone', '_id']; //添加机构管理员人员信息场景
@@ -208,7 +208,21 @@ class User extends BaseActiveRecord implements IdentityInterface
             }
         }
     }
+    /**
+     *
+     * @param 手机号／邮箱 $attribute
+     * @param unknown $params
+     * @return 查看手机号／邮箱在机构下是否存在
+     */
+    protected function checkDuplicate($attribute, $params) {
 
+        $hasRecord = User::find()->select(['id'])->where([$attribute => $params])->asArray()->limit(1)->one();
+        if ($hasRecord) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     /**
@@ -345,22 +359,13 @@ class User extends BaseActiveRecord implements IdentityInterface
         if (empty($emailFile)) {
             $emailFile = Yii::getAlias('@registerEmail');
         }
-        if (!empty($Info)) {
-            $parentName = $Info['parentName'];
-            $parentCode = $Info['parentCode'];
-        } else {
-            $parentName = Yii::$app->cache->get(Yii::getAlias('@parentName') . $this->Id . $this->userInfo->id);
-            $parentCode = Yii::$app->cache->get(Yii::getAlias('@parentCode') . $this->Id . $this->userInfo->id);
-
-//             $parentName = $_COOKIE['parentName'];
-//             $parentCode = $_COOKIE['parentCode'];
-        }
+        $parentName = '萌宝互动';
         $model = User::find()->select(['id', 'expire_time'])->where(['id' => $data->id])->one();
         $model->scenario = 'resetSave';
         $model->expire_time = time() + 86400;
         if ($model->save()) {
 
-            $mail = Yii::$app->mailer->compose($emailFile, ['data' => $data, 'parentName' => $parentName, 'parentCode' => $parentCode]);
+            $mail = Yii::$app->mailer->compose($emailFile, ['data' => $data, 'parentName' => $parentName]);
             $mail->setTo($data->email);
             $mail->setSubject("欢迎加入" . $parentName);
             //邮件发送成功后，重置expire_time

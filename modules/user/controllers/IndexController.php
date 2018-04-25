@@ -63,13 +63,14 @@ class IndexController extends Controller
     public function actionLogin() {
 
         $model = new LoginForm();
+        $defaultUrl = Url::to(['@rbacRole']);
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $defaultUrl = Url::to(['@rbacRole']);
 
             return $this->goBack($defaultUrl);
         } else {
             if (!\Yii::$app->user->isGuest) {
-                return $this->goHome();
+                return $this->goBack($defaultUrl);
             }
             return $this->render('login', [
                         'model' => $model,
@@ -115,6 +116,7 @@ class IndexController extends Controller
     public function actionResetPassword() {
         $resetToken = Yii::$app->request->get('token');
         $model = User::findOne(['password_reset_token' => $resetToken]);
+
         if (!$model || time() > $model->expire_time) {
             return $this->render('overdue');
         }

@@ -89,24 +89,39 @@ class ManageController extends BaseController
     public function actionCreate() {
         $model = new User();
         $model->scenario = 'register';
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->role) {
-                foreach ($model->role as $v) {
-                    $roleItem = $this->manager->getRole($v);
-                    $hasRecord = $this->manager->getAssignment($v, $model->id);
-                    if (!$hasRecord) {
-                        $this->manager->assign($roleItem, $model->id);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $dbtrans = Yii::$app->db->beginTransaction();
+            try {
+                $res = $model->save();
+                if ($model->role) {
+                    foreach ($model->role as $v) {
+                        $roleItem = $this->manager->getRole($v);
+                        $hasRecord = $this->manager->getAssignment($v, $model->id);
+                        if (!$hasRecord) {
+                            $this->manager->assign($roleItem, $model->id);
+                        }
                     }
                 }
+
+                $result = $model->sendRegisterMail($model);
+                if($result && $res){
+                    $dbtrans->commit();
+                    Yii::$app->getSession()->setFlash('success', '保存成功');
+                }else{
+                    $dbtrans->rollBack();
+                    Yii::$app->getSession()->setFlash('error', '系统错误');
+                }
+                return $this->redirect(['index']);
+            }catch (Exception $e){
+                $dbtrans->rollBack();
+
             }
 
-            $result = $model->sendRegisterMail($model);
-            Yii::$app->getSession()->setFlash('success', '保存成功');
-            return $this->redirect(['index']);
         }
 
 
-        $roleInfo = $this->manager->getChildren($this->parentRootRole);
+        $roleInfo = $this->manager->getRoles();
         return $this->render('create', [
                     'model' => $model,
                     'roleInfo' => $roleInfo,

@@ -1,4 +1,4 @@
-<?php 
+<?php
 use app\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -53,12 +53,12 @@ $attribute = $model->attributeLabels();
         <?= $form->field($model,'reType_password')->passwordInput(['class' => 'form-control','autocomplete' => 'off','placeholder' => ''])->label($attribute['surepassword']) ?>
         <?= Html::tag('span','',['class' => 'icon icon-pwd']) ?>
       </div>
-      <div class="form-group has-feedback">
-          <?= $form->field($model,'code')->textInput(['class' => 'form-control form-code','autocomplete' => 'off','placeholder' => '','maxlength'=>"6"])->label($attribute['iphone_code']) ?>
-          <?= Html::button('<span>获取验证码</span>',['class' => 'btn-code-off','id'=>'btn','disabled'=>'disabled']) ?>
-      </div>
-      <div class="code-message">
-      </div>
+<!--       <div class="form-group has-feedback"> -->
+          <?php // $form->field($model,'code')->textInput(['class' => 'form-control form-code','autocomplete' => 'off','placeholder' => '','maxlength'=>"6"])->label($attribute['iphone_code']) ?>
+          <?php // Html::button('<span>获取验证码</span>',['class' => 'btn-code-off','id'=>'btn','disabled'=>'disabled']) ?>
+<!--       </div> -->
+<!--       <div class="code-message"> -->
+<!--       </div> -->
 
     <div class="row margin-button">
         <!-- /.col -->
@@ -70,7 +70,7 @@ $attribute = $model->attributeLabels();
     <?php ActiveForm::end()?>
   </div>
 </div>
-<?php 
+<?php
     AppAsset::addScript($this,'@web/public/js/lib/require.js');
     $token=  yii::$app->request->get('token');
     $disUrl= Url::to(['@userIndexSendCode']);
